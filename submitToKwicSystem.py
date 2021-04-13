@@ -4,7 +4,7 @@ from time import time
 from time import sleep
 import socket
 
-def sendToKwicSystem(parent, inputData, noiseWordsData):
+def submitToKwicSystem(parent, inputData, noiseWordsData):
 
 	success = True
 	try:
@@ -30,8 +30,8 @@ def sendToKwicSystem(parent, inputData, noiseWordsData):
 		#Send Message to Server
 		client_socket.sendall(inputData)
 		response = client_socket.recv(100)
-		if response.decode('utf-8') == Constants.SERVER_RESPONSE_FAILURE:
-			raise Exception('SUBMIT FAILURE')
+		if response == Constants.SERVER_RESPONSE_UPLOAD_FAILURE:
+			raise Exception(Constants.SERVER_RESPONSE_UPLOAD_FAILURE)
 		client_socket.sendall(noiseWordsData)
 
 
@@ -39,7 +39,7 @@ def sendToKwicSystem(parent, inputData, noiseWordsData):
 		client_socket.settimeout(120)
 		response = client_socket.recv(100)
 		print('Received:', response.decode('utf-8'))
-		if response.decode('utf-8') == Constants.SERVER_RESPONSE_FAILURE:
+		if response == Constants.SERVER_RESPONSE_UPLOAD_FAILURE:
 			raise Exception('SUBMIT FAILURE')
 
 	except Exception as e:

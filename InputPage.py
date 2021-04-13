@@ -6,7 +6,7 @@ from tkinter import messagebox as mb
 import re
 from time import time
 from threading import Thread
-from sendToKwicSystem import sendToKwicSystem
+from submitToKwicSystem import submitToKwicSystem
 from Event import Event
 import Constants
 
@@ -83,7 +83,15 @@ class InputPage(tk.Frame):
 		return self._input_textbox.get("1.0", 'end -1c')
 
 	def _getNoiseWords(self):
-		return str(self._noise_words_entry.get())
+		noiseWords = str(self._noise_words_entry.get())
+
+		if not noiseWords == '':
+			noiseWords = re.split(' *,* *,+ *,* *| +', noiseWords)
+			if noiseWords[-1] == '': noiseWords.pop()
+			noiseWords = [noiseWord.lower() for noiseWord in noiseWords]
+			noiseWords = " ".join(noiseWords)
+		
+		return noiseWords
 
 
 
@@ -104,15 +112,47 @@ class InputPage(tk.Frame):
 		if noiseWordsData == '':
 			noiseWordsData = ' '
 
-		if not self._validInput(inputData):
-			mb.showerror("Error", "Error: Invalid input for 'Input' textbox (min. 1 char)")
+		validity = self._validInput(inputData)
+		if not validity == True:
+			mb.showerror("Error", validity)
 			return
 
 
-		kwicThread = Thread(target=sendToKwicSystem, args=(self._parent, inputData, noiseWordsData))
+		kwicThread = Thread(target=submitToKwicSystem, args=(self._parent, inputData, noiseWordsData))
 		kwicThread.start()
 
 
 	def _validInput(self, inputData):
-		return len(inputData) > 0
+		print(len(inputData))
+		if len(inputData) == 0:
+			errorMessage = 'Please insert Url(s) and keyword(s)'
+			return errorMessage
+
+		inputData = inputData.split('\n')
+		errorMessage = ''
+		error = False
+
+
+
+		for x in inputData:
+			x = x.split()
+
+			if not re.match('http://(www.)*[a-zA-Z0-9]+(\.edu|\.com|\.org|\.net)', x[0]):
+				errorMessage += 'Invalid url syntax\n'	
+				error = True
+
+			if len(x) == 1:
+				errorMessage += 'Missing descriptor(s)'		
+				error = True
+
+			if error:
+				break	
+		if error:
+			return errorMessage
+		else:
+			return True
+			
+
+
+		
 

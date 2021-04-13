@@ -1,4 +1,4 @@
-from Form import Form
+from form import Form
 
 form = Form()
 form.mainloop()
