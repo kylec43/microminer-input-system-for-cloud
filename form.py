@@ -54,17 +54,17 @@ class Form (tk.Tk):
 					self.submit_tab = SubmitPage(self)
 					self.tabControl.add(self.submit_tab, text ='Output')
 					
-				self.input_tab.setGenerateButtonState(False)
+				self.input_tab.setSubmitButtonState(False)
 				self.submit_tab.displayLoadingScreen()
 				self.tabControl.select(1)
 
 			elif self.eventQueue[0].code == Constants.EVT_SUBMIT_SUCCESS:
 				self.submit_tab.displaySuccessScreen()
-				self.input_tab.setGenerateButtonState(True)
+				self.input_tab.setSubmitButtonState(True)
 
 			elif self.eventQueue[0].code == Constants.EVT_SUBMIT_FAILURE:
 				self.submit_tab.displayFailScreen()
-				self.input_tab.setGenerateButtonState(True)
+				self.input_tab.setSubmitButtonState(True)
 
 			elif self.eventQueue[0].code == Constants.EVT_CLOSE_SUBMIT_PAGE:
 				self.tabControl.forget(1)

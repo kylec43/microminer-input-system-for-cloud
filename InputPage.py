@@ -95,7 +95,7 @@ class InputPage(tk.Frame):
 
 
 
-	def setGenerateButtonState(self, value):
+	def setSubmitButtonState(self, value):
 
 		state = tk.DISABLED
 		if value != False:
