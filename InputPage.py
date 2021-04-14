@@ -46,7 +46,7 @@ class InputPage(tk.Frame):
 
 		scrollbar1 = tk.Scrollbar(self, command=self._input_textbox.xview, orient='horizontal')
 		self._input_textbox['xscrollcommand'] = scrollbar1.set
-		self._submit_button = ttk.Button(self, text = 'Submit to Database', command = self._generateOutput)
+		self._submit_button = ttk.Button(self, text = 'Submit to Database', command = self._uploadInput)
 		load_file_button = ttk.Button(self, text = 'Load file..', command = self._loadFile)
 		clear_input_textbox_button = ttk.Button(self, text = 'Clear', command = self._clearInputBox)
 
@@ -104,7 +104,7 @@ class InputPage(tk.Frame):
 		self._submit_button.configure(state = state)
 
 
-	def _generateOutput(self):
+	def _uploadInput(self):
 
 		inputData = self._getInput()
 		noiseWordsData = self._getNoiseWords()
