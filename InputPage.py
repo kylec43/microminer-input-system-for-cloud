@@ -133,13 +133,18 @@ class InputPage(tk.Frame):
 		error = False
 
 
-
+		urls = []
 		for x in inputData:
 			x = x.split()
 
-			if not re.match('http://(www.)*[a-zA-Z0-9]+(\.edu|\.com|\.org|\.net)', x[0]):
+			if not re.match('(http(s)?://)?(www.)?[a-zA-Z0-9]+(\.edu|\.com|\.org|\.net)', x[0]):
 				errorMessage += 'Invalid url syntax\n'	
 				error = True
+
+			if x[0] in urls:
+				errorMessage += 'You have 2 or more of the same urls!\n'
+				error = True
+			urls.append(x[0])
 
 			if len(x) == 1:
 				errorMessage += 'Missing descriptor(s)'		
