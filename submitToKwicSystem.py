@@ -11,7 +11,7 @@ def submitToKwicSystem(parent, inputData, noiseWordsData):
 		parent.addEvent(Event(Constants.EVT_SUBMIT_STARTED))
 
 		
-		response = requests.get(Constants.KWIC_WEBSERVER_URl, params={Constants.GET_ARG_ORIGINAL_URL_KEYWORDS: inputData, Constants.GET_ARG_NOISE_WORDS: noiseWordsData})
+		response = requests.get(Constants.KWIC_WEBSERVER_URl, params={Constants.GET_ARG_ORIGINAL_URL_KEYWORDS: inputData, Constants.GET_ARG_NOISE_WORDS: noiseWordsData}, timeout=120)
 		response = response.text
 		if response == Constants.SERVER_RESPONSE_UPLOAD_FAILURE:
 			raise Exception('SUBMIT FAILURE')
